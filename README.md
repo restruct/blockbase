@@ -17,6 +17,7 @@ Below CSS unsets this (based on a project which wraps all content in a subnav an
     }
   }
 }
+```
 
 ## Functionality:
 - Various Block (Elemental) tweaks (+ block icon/thumbnail preview route at `admin/blocktypeicons`)
@@ -42,13 +43,13 @@ i.block-section, button.block-section {
     background-position: 0 -28px;
   }}
 }
-
+```
 
 ## Notes
 
 ### Template relations
-The DNADesign/Elemental/Models/ElementalArea.ss template loops over each of the element controller instances. 
-Each controller instance will render $ElementHolder which represents the element contained within a holder div. 
+The DNADesign/Elemental/Models/ElementalArea.ss template loops over each of the element controller instances.
+Each controller instance will render $ElementHolder which represents the element contained within a holder div.
 The wrapper div is the ElementHolder.ss template.
 
 
@@ -60,6 +61,7 @@ Restruct\Silverstripe\BlockBase\Blocks\BlockContent:
     single-col-wide: 'Single wide column layout'
     single-col-narrow: 'Single narrow column layout'
     double-col-equal: 'Two equal-width columns layout'
+```
 
 The selected $StyleVariant will be available in themplates and is included as class on the wrapper element (DNADesign/Elemental/Layout/BlockHolder.ss).
 It can also be used to switch between different templates, eg BlockType.ss / BlockType_single-col-wide.ss / etc.
@@ -72,6 +74,7 @@ Restruct\Silverstripe\BlockBase\Blocks\BlockContent:
   style_options:
     - 'light'
     - 'dark'
+```
 
 ### Advanced config
 Advanced config pointers: https://github.com/silverstripe/silverstripe-elemental/blob/4/docs/en/advanced_setup.md
