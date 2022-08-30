@@ -1,0 +1,134 @@
+// 'VARS'
+$block-border-color: #d3d3d3; // original
+$block-icon-color: #6f84a7; // page icons color
+
+
+// Remove auto-inserted menu-item for BlockIconsPreviewController
+#Menu-Restruct-Silverstripe-BlockBase-Dev-BlockIconsPreviewController {
+  display: none;
+}
+
+// Fix block icon preview in blocks modeladmin
+.BlockAdmin.ModelAdmin {
+  .col-Icon i {
+    font-size: 2.154rem;
+    display: block;
+    margin-top: -0.4rem;
+    height: 28px;
+    margin-bottom: -.8rem;
+    & + .element-editor-header__version-state {
+      margin-top: .8rem;
+      margin-bottom: -.8rem;
+    }
+  }
+}
+
+
+//
+// Block thumbnails/previews based on specific project design:
+//
+i.block-design, button.block-design:before {
+  width: 90px;
+  height: 32px;
+  margin-top: -3px;
+  border-radius: 3px;
+  border: 1px solid $block-border-color;
+  background-size: cover;
+  transition: transform .1s ease-in-out;
+  transform-origin: 10% 50%;
+  display: inline-block;
+}
+i.block-design:hover, button.block-design:hover:before {
+  transform: scale(2);
+  z-index: 10;
+  position: relative;
+}
+button.block-design {
+  overflow: visible;
+}
+
+button.block-design:before {
+  content: '';
+  position: relative;
+  margin-right: 0.75rem;
+  vertical-align: middle;
+
+  margin-top: -12px;
+  margin-bottom: -12px;
+}
+i.block-design {
+  & + .element-editor-header__version-state {
+    display: inline-block;
+    bottom: 0;
+    left: -6px;
+  }
+}
+
+
+//
+// SAMPLE: copy-paste below section to specific project code to show designed block previews instead of icons
+// - set $icon to 'block-design block-section {block-name-offset}'
+// - add stacked blocks img to app/client (.block-name-offset sets vertical offset to display correct block)
+//
+//i.block-section, button.block-section:before {
+//  background-image: url(~app/client/imgs/block-group-designs_stacked.png);
+//  background-position: 0 0;
+//}
+//i.block-section, button.block-section {
+//  &.block-name-offset {&, &:before {
+//    background-position: 0 -128px;
+//  }}
+//  &.block-othername-offset {&, &:before {
+//    background-position: 0 -28px;
+//  }}
+//}
+
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+
+////
+//// Make the block description editing sort of inline... Nah, causes some (minor) layout issues
+////
+//.element-editor__element--expandable[draggable="false"] {
+//  .element-editor-header__title {
+//    display: none;
+//  }
+//  .element-editor-content {
+//    .tab-pane:first-child > div > .field:first-child {
+//      margin-top: -40px;
+//
+//      &:before {
+//        content: '';
+//        width: calc(100% / 6);
+//        display: inline-block;
+//      }
+//
+//      .form__field-label {
+//          content: 'Omschrijving/referentie (intern)';
+//          visibility: visible;
+//          position: absolute;
+//          font-size: 9px;
+//          margin-left: calc(100% / 6 + 2rem);
+//          z-index: 100;
+//          margin-top: -8px;
+//          border: 1px solid #ced5e1;
+//          padding: 0 4px;
+//          width: auto;
+//          border-radius: 3px;
+//          background-color: white;
+//      }
+//    }
+//  }
+//}
+
+// Some general block tweaks
+//.element-editor-summary__content {
+//  font-style: italic;
+//  &:before {
+//    content: "“";
+//  }
+//  &:after {
+//    content: "…”";
+//  }
+//}

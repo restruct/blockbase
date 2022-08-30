@@ -1,0 +1,7 @@
+en:
+  Restruct\Silverstripe\BlockBase\Extensions\ContentBlocksToggleExtension:
+    ContentBlocksToggle: 'Show/use content, blocks, or both'
+    ContentBlocksToggle_descr: '(Save after changing to show/hide relevant input fields)'
+    ContentBlocksToggle_content: 'Content field only (do not use blocks)'
+    ContentBlocksToggle_content_blocks: 'Content field followed by blocks'
+    ContentBlocksToggle_blocks: 'Blocks only (do not use regular Content field)'

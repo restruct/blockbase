@@ -1,0 +1,7 @@
+nl_NL:
+  Restruct\Silverstripe\BlockBase\Extensions\ContentBlocksToggleExtension:
+    ContentBlocksToggle: 'Gebruik inhoud veld, blokken, of beide'
+    ContentBlocksToggle_descr: '(Sla aangepaste waarde op om relevante invoervelden te tonen/verbergen)'
+    ContentBlocksToggle_content: 'Alleen inhoud veld (geen blokken)'
+    ContentBlocksToggle_content_blocks: 'Inhoud veld gevolgd door blokken'
+    ContentBlocksToggle_blocks: 'Alleen blokken (negeer inhoud veld)'

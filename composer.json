@@ -1,0 +1,31 @@
+{
+  "name": "restruct/silverstripe-blockbase",
+  "description": "Various tweaks & enhancements on top of Elemental",
+  "type": "silverstripe-vendormodule",
+  "keywords": [
+    "silverstripe"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Restruct",
+      "email": "dev@restruct.nl",
+      "homepage": "https://restruct.nl"
+    }
+  ],
+  "require": {
+    "silverstripe/vendor-plugin": "^1.0",
+    "silverstripe/framework": "^4",
+    "dnadesign/silverstripe-elemental": "^4.5"
+  },
+  "autoload": {
+    "psr-4": {
+      "Restruct\\Silverstripe\\BlockBase\\": "src/"
+    }
+  },
+  "extra": {
+    "expose": [
+      "client/dist"
+    ]
+  }
+}

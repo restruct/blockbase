@@ -1,0 +1,123 @@
+# GENERAL ELEMENTAL TWEAKS
+# NOTE: Elemental alongside subsites just works -- DONT use elemental-subsites module as it breaks things
+---
+Name: blocks_elemental
+After:
+  - 'elemental'
+  - 'elementalvirtual' # if exists...
+Only:
+  moduleexists: 'dnadesign/silverstripe-elemental'
+---
+SilverStripe\Admin\LeftAndMain:
+  extra_requirements_css:
+    - 'restruct/silverstripe-blockbase:client/dist/css/admin-block-tweaks.css'
+
+# ElementalAreasExtension adds DB relationships between pages & blocks
+DNADesign\Elemental\Extensions\ElementalAreasExtension:
+  # Do not replace Content field (override on specific pagetype with elemental_keep_content_field)
+  keep_content_fields: true
+
+# ElementalPageExtension adds elemental UI to specific page type(s)/class(es):
+Page:
+  extensions:
+    - DNADesign\Elemental\Extensions\ElementalPageExtension
+    - Restruct\Silverstripe\BlockBase\Extensions\ContentBlocksToggleExtension
+
+# 'Deactivate' elemental UI for specific page (sub)classes:
+DNADesign\Elemental\Extensions\ElementalPageExtension:
+  ignored_classes:
+    - SilverStripe\UserForms\Model\UserDefinedForm
+    - Restruct\SilverStripe\NewsGrid\NewsGridHolder
+    - Restruct\SilverStripe\Sitemap\SitemapPage
+    - SilverStripe\CMS\Model\RedirectorPage
+    - SilverStripe\CMS\Model\VirtualPage
+
+# Disable default block styles in front-end
+DNADesign\Elemental\Controllers\ElementController:
+  include_default_styles: false
+
+#Restruct\Silverstripe\BlockBase\Blocks\BlockBase:
+DNADesign\Elemental\Models\BaseElement:
+  inline_editable: true
+  displays_title_in_template: false
+  description: 'Base'
+  controller_template: 'BlockHolder'
+  extensions:
+    - Restruct\Silverstripe\BlockBase\Extensions\ElementBlockBaseExtension
+
+## Limit available elements based on page type (as opposed to the full set):
+#Page:
+#  allowed_elements:
+#    - Restruct\Silverstripe\BlockBase\Blocks\BlockContent
+## Make certain elements unavailable instead:
+#Page:
+#  disallowed_elements:
+#    - YourCompany\YourModule\Elements\ElementContact
+
+# ROUTE FOR BLOCK-ICON PREVIEWING
+---
+Only:
+  environment: 'dev'
+  moduleexists: 'dnadesign/silverstripe-elemental'
+---
+SilverStripe\Control\Director:
+  rules:
+    # (Dev:) list blocktypes & show preview icons (for cropping)
+    'admin/blocktypeicons': 'Restruct\Silverstripe\BlockBase\Dev\BlockIconsPreviewController'
+
+
+# ELEMENTAL VIRTUAL (CLONE) BLOCKS
+---
+Name: blocks_elemental_virtual
+After: 'elementalvirtual'
+Only:
+  moduleexists: 'dnadesign/silverstripe-elemental-virtual'
+---
+#DNADesign\Elemental\Models\BaseElement:
+#  # from DNADesign\ElementalVirtual\Extensions\BaseElementExtension --> not working (workaround in BlockBase)
+#  default_global_elements: true
+DNADesign\ElementalVirtual\Model\ElementVirtual:
+#  table_name: 'BlockClone'
+  singular_name: 'clone block'
+  plural_name: 'clone blocks'
+  description: 'Duplicaat (clone)'
+  controller_template: 'BlockHolder'
+  # Make virtual (clone) elements work with inline editing
+  inline_editable: true
+  extensions:
+    - Restruct\Silverstripe\BlockBase\Extensions\ElementVirtualExtension
+
+
+# Check: https://github.com/silverstripe/silverstripe-elemental/blob/4/docs/en/content_migration.md
+#---
+#Name: blocks_migration_tweaks
+#---
+#DNADesign\Elemental\Tasks\MigrateContentToElement\MigrateContentToElement:
+##  enabled: false
+#  clear_content: false
+#  target_element: Site\BlockModels\BlockContent
+#  target_element_field: 'Content'
+#  publish_changes: true
+#  extensions:
+#    - Restruct\Silverstripe\BlockBase\Extensions\\MigrateContentToElementExtension
+
+
+# Elemental alongside subsites -> blocks can be reused across subsites (feature, not a bug)
+---
+Name: blocks_elemental_subsites
+After:
+  - 'elemental'
+  - 'subsiteextensions'
+Only:
+  moduleexists:
+    - 'dnadesign/silverstripe-elemental'
+    - 'silverstripe/subsites'
+---
+Page:
+  extensions:
+    - Restruct\Silverstripe\BlockBase\Extensions\SubsitesPageExtension
+  subsites_allowed_elements:
+    - 'none'
+#    - Restruct\Silverstripe\BlockBase\Blocks\BlockContent
+#  subsites_disallowed_elements:
+#    - Restruct\Silverstripe\BlockBase\Blocks\BlockContent
