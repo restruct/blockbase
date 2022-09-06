@@ -4,7 +4,6 @@
 Name: blocks_elemental
 After:
   - 'elemental'
-  - 'elementalvirtual' # if exists...
 Only:
   moduleexists: 'dnadesign/silverstripe-elemental'
 ---
@@ -31,6 +30,7 @@ DNADesign\Elemental\Extensions\ElementalPageExtension:
     - Restruct\SilverStripe\Sitemap\SitemapPage
     - SilverStripe\CMS\Model\RedirectorPage
     - SilverStripe\CMS\Model\VirtualPage
+    - SilverStripe\Subsites\Pages\SubsitesVirtualPage
 
 # Disable default block styles in front-end
 DNADesign\Elemental\Controllers\ElementController:
