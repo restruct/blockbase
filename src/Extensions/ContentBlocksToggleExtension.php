@@ -30,6 +30,10 @@ class ContentBlocksToggleExtension
 
     public function updateCMSFields(FieldList $fields)
     {
+        if(is_a($this->owner, 'SilverStripe\Subsites\Pages\SubsitesVirtualPage')){
+            return;
+        }
+        
         // Content/Blocks layout switching (Content field may not exist on some pagetypes like redirectorpage)
         if($fields->dataFieldByName('Content') && $this->owner->supportsElemental()){
             $opts = $this->owner->dbObject("ContentBlocksToggle")->enumValues();
