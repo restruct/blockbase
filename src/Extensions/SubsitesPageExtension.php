@@ -23,12 +23,16 @@ class SubsitesPageExtension
     public function updateAvailableTypesForClass(&$pageClass, &$elementTypes)
     {
         // only apply if on subsite (not on 'main' site)
-        if(!SubsiteState::singleton()->getSubsiteId()) return;
+        if(!SubsiteState::singleton()->getSubsiteId()) {
+            return;
+        }
 
         $config = $this->owner->config();
         // apply/limit available block classes (if any)
         $allowed = $config->get('subsites_allowed_elements');
-        if (is_array($allowed)) {
+        if ($allowed===false) {
+            $elementTypes = [];
+        } elseif (is_array($allowed)) {
             $elementTypes = array_intersect_key($elementTypes, array_flip($allowed));
         }
         // remove unavailable block classes
@@ -44,8 +48,9 @@ class SubsitesPageExtension
             return;
         }
 
-        // Remove ElementalArea UI is no blocktypes available/allowed (allow removing existing ones, eg after config change)
+        // Remove ElementalArea UI if no blocktypes available/allowed (allow removing existing ones, eg after config change)
         if(!count($this->owner->getElementalTypes()) && !$this->owner->ElementalArea()->Elements()->count()){
+            $fields->removeByName('ContentBlocksToggle');
             $fields->removeByName('ElementalArea');
         }
 

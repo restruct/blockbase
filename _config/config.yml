@@ -66,7 +66,7 @@ SilverStripe\Control\Director:
     'admin/blocktypeicons': 'Restruct\Silverstripe\BlockBase\Dev\BlockIconsPreviewController'
 
 
-# ELEMENTAL VIRTUAL (CLONE) BLOCKS
+# ELEMENTAL VIRTUAL (CLONE) BLOCKS (IMPROVEMENTS/FIXES)
 ---
 Name: blocks_elemental_virtual
 After: 'elementalvirtual'
@@ -116,8 +116,14 @@ Only:
 Page:
   extensions:
     - Restruct\Silverstripe\BlockBase\Extensions\SubsitesPageExtension
-  subsites_allowed_elements:
-    - 'none'
+
+#  # Example: disallow any blocks on subsites
+#  subsites_allowed_elements: false
+
+#  # Example: allow specific elements on subsites
+#  subsites_allowed_elements:
 #    - Restruct\Silverstripe\BlockBase\Blocks\BlockContent
+
+#  # Example: DISallow specific elements on subsites
 #  subsites_disallowed_elements:
 #    - Restruct\Silverstripe\BlockBase\Blocks\BlockContent

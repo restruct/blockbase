@@ -78,3 +78,22 @@ Restruct\Silverstripe\BlockBase\Blocks\BlockContent:
 
 ### Advanced config
 Advanced config pointers: https://github.com/silverstripe/silverstripe-elemental/blob/4/docs/en/advanced_setup.md
+
+#### Allow/disallow specific block types on subsites
+
+(Handled by `Restruct\Silverstripe\BlockBase\Extensions\SubsitesPageExtension`)
+
+```yml
+Page:
+
+#  # Example: disallow any blocks on subsites
+#  subsites_allowed_elements: false
+
+#  # Example: allow specific elements on subsites
+#  subsites_allowed_elements:
+#    - Restruct\Silverstripe\BlockBase\Blocks\BlockContent
+
+#  # Example: DISallow specific elements on subsites
+#  subsites_disallowed_elements:
+#    - Restruct\Silverstripe\BlockBase\Blocks\BlockContent
+```

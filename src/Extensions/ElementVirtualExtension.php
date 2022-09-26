@@ -14,6 +14,18 @@ class ElementVirtualExtension
         'LinkedElements' => BaseElement::class,
     ];
 
+    public function updateFieldLabels(&$labels)
+    {
+        $labels = array_merge(
+            $labels,
+            [
+                'LinkedElement' => _t(__CLASS__.'.LinkedElement', 'Origineel blok'),
+                'LinkedElement_empty' => _t(__CLASS__.'.LinkedElement_empty', '(selecteer blok om hier virtueel te plaatsen/linken)'),
+                'LinkedElement_noneAvailableDescr' => _t(__CLASS__.'.LinkedElement_noneAvailable', '(geen blokken beschikbaar)'),
+            ]
+        );
+    }
+
     public function updateCMSFields($fields)
     {
         $availableBlocks = BaseElement::get()
@@ -29,18 +41,27 @@ class ElementVirtualExtension
         $dropdownSource = $availableBlocks->map('ID', 'Path')->toArray();
         asort($dropdownSource);
 
-        if($availableBlocks->count()){
-            $fields->replaceField(
-                'LinkedElementID',
-                DropdownField::create(
-                    "LinkedElementID",
-                    $this->owner->fieldLabel('LinkedElement'),
-                    $dropdownSource
-                )->setEmptyString('(selecteer block om hier virtueel te plaatsen/linken)')
+        $fields->replaceField(
+            'LinkedElementID',
+            $dropdownField = DropdownField::create(
+                "LinkedElementID",
+                $this->owner->fieldLabel('LinkedElement'),
+                $dropdownSource
+            )->setEmptyString($this->owner->fieldLabel('LinkedElement_empty'))
 //                TagField::create("LinkedElementRelation", $this->owner->fieldLabel('LinkedElement'), $availableBlocks)
 //                    // Bug: TagField (react) setIsMultiple results in empty (https://github.com/silverstripe/silverstripe-tagfield/issues/195)
 //    //                ->setIsMultiple(false)
 //                    ->setCanCreate(false)
+            );
+        if( ! $availableBlocks->count() ){ // '),, [ 'count' => $count ]
+            $dropdownField->setDescription(
+                _t(
+                    __CLASS__.'.SuggestMarkAsAvailableGlobal',
+                    'Maak eerst originele blokken beschikbaar om ze als virtueel blok te kunnen doorplaatsen, aanvinken: “{AvailableGlobally}”.',
+                    [
+                        'AvailableGlobally' => $this->owner->fieldLabel('AvailableGlobally')
+                    ]
+                )
             );
         }
 
