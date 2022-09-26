@@ -106,7 +106,7 @@ DNADesign\ElementalVirtual\Model\ElementVirtual:
 ---
 Name: blocks_elemental_subsites
 After:
-  - 'elemental'
+  - 'blocks_elemental'
   - 'subsiteextensions'
 Only:
   moduleexists:
