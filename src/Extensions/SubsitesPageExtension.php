@@ -49,7 +49,7 @@ class SubsitesPageExtension
         }
 
         // Remove ElementalArea UI if no blocktypes available/allowed (allow removing existing ones, eg after config change)
-        if(!count($this->owner->getElementalTypes()) && !$this->owner->ElementalArea()->Elements()->count()){
+        if(count($this->owner->getElementalTypes())==0 && $this->owner->ElementalArea()->Elements()->count()==0){
             $fields->removeByName('ContentBlocksToggle');
             $fields->removeByName('ElementalArea');
         }
