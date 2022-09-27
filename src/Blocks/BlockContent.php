@@ -29,6 +29,7 @@ class BlockContent
     private static $has_heading = true;
     private static $has_introline = true;
     private static $has_image = true;
+    private static $image_upload_dir = null;
     private static $has_content = true;
     private static $has_bg_image = true;
 
@@ -111,8 +112,9 @@ class BlockContent
 
         // set uploadfield foldernames
         foreach ($fields->saveableFields() as $field){
-            if(is_a($field, UploadField::class)){
-                $field->setFolderName('blockimages');
+            $uploadDir = $this->config()->get('image_upload_dir');
+            if($uploadDir && is_a($field, UploadField::class)){
+                $field->setFolderName($uploadDir);
             }
         }
 
