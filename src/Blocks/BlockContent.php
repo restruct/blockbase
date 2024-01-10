@@ -128,8 +128,8 @@ class BlockContent
         }
 
 //        // Some quick ExtraData tests...
-        $fields->addFieldToTab('Root.Main', TextField::create('ExtraData_Test1', 'Test 1'));
-        $fields->addFieldToTab('Root.Main', TextField::create('ExtraData_Test2', 'Test 2'));
+//        $fields->addFieldToTab('Root.Main', TextField::create('ExtraData_Test1', 'Test 1'));
+//        $fields->addFieldToTab('Root.Main', TextField::create('ExtraData_Test2', 'Test 2'));
 //        $fields->addFieldToTab('Root.Main', TextField::create('ExtraData_Test3', 'Test 3'));
 //        $fields->addFieldToTab('Root.Main', NumericField::create('ExtraData_Number', 'Numeric data'));
 //        $fields->addFieldToTab('Root.Main', TextareaField::create('ExtraData_Textarea', 'Textarea'));
