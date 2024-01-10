@@ -66,6 +66,11 @@ class BlockContent
         'BackgroundImage',
     ];
 
+    public function getSummary()
+    {
+        return DBField::create_field('HTMLText', "<h2>{$this->Heading}</h2> {$this->Content}")->Summary(20);
+    }
+
     public function fieldLabels($includerelations = true)
     {
         return array_merge(
@@ -110,7 +115,7 @@ class BlockContent
             $fields->dataFieldByName('Content')->setRows(20);
         }
 
-        // set uploadfield foldernames
+        // SET FOLDER NAMES FOR UPLOADS
         foreach ($fields->saveableFields() as $field){
             $uploadDir = $this->config()->get('image_upload_dir');
             if($uploadDir && is_a($field, UploadField::class)){
@@ -118,11 +123,53 @@ class BlockContent
             }
         }
 
+//        // Some quick ExtraData tests...
+//        $fields->addFieldToTab('Root.Main', TextField::create('ExtraData_Test1', 'Test 1'));
+//        $fields->addFieldToTab('Root.Main', TextField::create('ExtraData_Test2', 'Test 2'));
+//        $fields->addFieldToTab('Root.Main', TextField::create('ExtraData_Test3', 'Test 3'));
+//        $fields->addFieldToTab('Root.Main', NumericField::create('ExtraData_Number', 'Numeric data'));
+//        $fields->addFieldToTab('Root.Main', TextareaField::create('ExtraData_Textarea', 'Textarea'));
+//        $fields->addFieldToTab('Root.Main', DropdownField::create('ExtraData_Select', 'Select', ['Opt 1', 'Opt 2', 'Opt 3']));
+
+        // ExtraData functionality/fields; __get/__set dont seem to get called for fields and
+        // as ExtraData fields are not 1:1 related db records we have to manually set their value
+        if($ExtraData = $this->getExtraData()) foreach ($fields->saveableFields() as $field){
+            if(strpos($field->getName(), 'ExtraData_') === 0) {
+                $field->setValue( $ExtraData[str_replace('ExtraData_', '', $field->getName())] ?? null );
+            }
+        }
+        // Remove scaffolded 'RAW' JSON field
+        $fields->removeByName('ExtraDataJSON');
+
         return $fields;
     }
 
-    public function getSummary()
+    //
+    // EXTRADATA HANDLING
+    //
+    public function getExtraData()
     {
-        return DBField::create_field('HTMLText', "<h2>{$this->Heading}</h2> {$this->Content}")->Summary(20);
+        return json_decode($this->ExtraDataJSON, JSON_OBJECT_AS_ARRAY);
     }
+
+    // Write any ExtraData_* fields into ExtraDataJSON
+    private function prepareExtraDataForWriting()
+    {
+        $ExtraData = $this->getExtraData(); // retains any existing values
+        foreach ($this->record as $key => $value) {
+            if(strpos($key, 'ExtraData_') === 0) {
+                $ExtraData[str_replace('ExtraData_', '', $key)] = $value;
+            }
+        }
+        $this->ExtraDataJSON = json_encode($ExtraData);
+    }
+
+    public function onBeforeWrite()
+    {
+        parent::onBeforeWrite();
+
+        // Write any ExtraData_* fields into ExtraDataJSON
+        $this->prepareExtraDataForWriting();
+    }
+
 }
