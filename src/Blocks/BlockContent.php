@@ -9,6 +9,7 @@ if ( ! \SilverStripe\Core\ClassInfo::exists('DNADesign\Elemental\Models\BaseElem
 use SilverStripe\AssetAdmin\Forms\UploadField;
 use SilverStripe\Assets\Image;
 use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\Form;
 use SilverStripe\Forms\TextField;
 use SilverStripe\ORM\FieldType\DBField;
 use SilverStripe\ORM\FieldType\DBHTMLVarchar;
@@ -134,15 +135,16 @@ class BlockContent
 //        $fields->addFieldToTab('Root.Main', NumericField::create('ExtraData_Number', 'Numeric data'));
 //        $fields->addFieldToTab('Root.Main', TextareaField::create('ExtraData_Textarea', 'Textarea'));
 //        $fields->addFieldToTab('Root.Main', DropdownField::create('ExtraData_Select', 'Select', ['Opt 1', 'Opt 2', 'Opt 3']));
-
         // ExtraData functionality/fields; __get/__set dont seem to get called for fields and
         // as ExtraData fields are not 1:1 related db records we have to manually set their value
-        if($ExtraData = $this->getExtraData()) foreach ($fields->saveableFields() as $field){
-            if(strpos($field->getName(), 'ExtraData_') === 0) {
-                $field->setValue( $ExtraData[str_replace('ExtraData_', '', $field->getName())] ?? null );
-            }
-        }
-        // Remove scaffolded 'RAW' JSON field
+//        if($ExtraData = $this->getExtraData()) foreach ($fields->saveableFields() as $field){
+//            if(strpos($field->getName(), 'ExtraData_') === 0) {
+//                $field->setValue( $ExtraData[str_replace('ExtraData_', '', $field->getName())] ?? null );
+//            }
+//        }
+        // ExtraData functionality: load ExtraData into $this to formfields will (mostly) load existing values from db
+        $this->loadExtraData();
+        // Remove auto-scaffolded 'RAW' ExtraDataJSON field
         $fields->removeByName('ExtraDataJSON');
 
         return $fields;
@@ -151,6 +153,14 @@ class BlockContent
     //
     // EXTRADATA HANDLING
     //
+    public function loadExtraData()
+    {
+        // This makes (most) formfields load their existing value
+        if($ExtraData = $this->getExtraData()) foreach ($ExtraData as $edField => $edVal){
+            $this->{"ExtraData_{$edField}"} = $edVal;
+            $this->record["ExtraData_{$edField}"] = $edVal;
+        }
+    }
     public function getExtraData()
     {
         return json_decode($this->ExtraDataJSON, JSON_OBJECT_AS_ARRAY);
