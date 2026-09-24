@@ -52,6 +52,13 @@ class ElementBlockBaseExtensionTest extends SapphireTest
         // No own class_description: the (singular) type name, never an empty string
         $this->assertSame(BlockBase::singleton()->getType(), BlockBase::singleton()->getBlockDescription());
         $this->assertNotSame('', BlockBase::singleton()->getBlockDescription());
+
+        // An element outside BlockBase, whose getType() is its singular name, still reports its
+        // class description (elemental's ElementContent has both, and they differ)
+        $content = ElementContent::singleton();
+        $this->assertNotEmpty($content->i18n_classDescription());
+        $this->assertNotSame($content->getType(), $content->i18n_classDescription());
+        $this->assertSame($content->i18n_classDescription(), $content->getBlockDescription());
     }
 
     public function testNewBlockIsNotAvailableGlobally()
