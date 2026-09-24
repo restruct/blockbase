@@ -7,4 +7,3 @@
 /.gitignore       export-ignore
 /.editorconfig    export-ignore
 /.babelrc         export-ignore
-/UPGRADING.md     export-ignore

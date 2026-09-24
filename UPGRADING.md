@@ -19,8 +19,11 @@
    with `getBlockDescription()` (`$BlockDescription` in templates) to fall back to the type name. Elemental
    6 removed `getDescription()`.
 4. **Project extensions of these classes**: the module's extensions now extend `Extension`. If you
-   subclass one of them and call `parent::onBeforeWrite()` (or another `DataExtension` hook), remove that
-   call; `Extension` has no such method.
+   subclass one of them and call `parent::` on a hook that the module class does not define itself
+   (for example `parent::onBeforeWrite()` on `ContentBlocksToggleExtension` or `SubsitesPageExtension`),
+   remove that call; `Extension` has no such method. Keep `parent::` calls to hooks the module class
+   does define: `onBeforeWrite()` on `ElementBlockBaseExtension` and `ElementVirtualExtension`, and
+   `updateCMSFields()` on all four extensions.
 5. If you applied `ElementContentMigrationExtension` to `MigrateContentToElement`: it now actually
    excludes non-`Page` types and skips pages that already have blocks. Check that is what you want before
    running the task again.

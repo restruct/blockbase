@@ -22,7 +22,9 @@ and `restruct/silverstripe-admintweaks ^3 || ^4`.
   Silverstripe 6).
 - The block-type icon preview (`admin/blocktypeicons`) renders from
   `templates/Restruct/Silverstripe/BlockBase/Dev/BlockIconsPreview.ss` instead of an inline template
-  string, and lists every `BaseElement` subclass.
+  string, and lists every `BaseElement` subclass. It is no longer a CMS menu item, and outside dev it
+  answers 404 (before, the admin routed it at `admin/admin/blocktypeicons` in every environment and
+  the menu listed it under its class name).
 - `composer.json`: PHP floor, `suggest` entries for `dnadesign/silverstripe-elemental-virtual` and
   `silverstripe/subsites`, a `funding` entry, a `2.x-dev` branch alias.
 - Licence copyright line reads "Restruct".
@@ -41,6 +43,8 @@ and `restruct/silverstripe-admintweaks ^3 || ^4`.
   pages that already had blocks never reached `MigrateContentToElement`.
 - **Opening a block in the Content Blocks admin threw a TypeError on Silverstripe 6**:
   `addFieldsToTab()` was given a `FieldList` instead of an array.
+- `ElementVirtualExtension::LinkedElementRelation()` threw an `InvalidArgumentException` on a clone
+  without a linked block yet (it passed `NULL` to `UnsavedRelationList::add()`).
 - `getExtraData()` passed `NULL` to `json_decode()` for a block without ExtraData (deprecated since
   PHP 8.1).
 - On Silverstripe 6: the page edit link in the block admin uses `getCMSEditLink()`, and the
@@ -48,7 +52,7 @@ and `restruct/silverstripe-admintweaks ^3 || ^4`.
 
 ### Added
 
-- Test suite (50 tests, identical on Silverstripe 5 and 6) with a regression test for each fix above,
+- Test suite (54 tests, identical on Silverstripe 5 and 6) with a regression test for each fix above,
   and a GitHub Actions matrix: Silverstripe 5 on PHP 8.1 and 8.3, Silverstripe 6 on PHP 8.3 and 8.4,
   with elemental-virtual and subsites installed.
 - README: what installing the module configures, every config option, the public API, the optional

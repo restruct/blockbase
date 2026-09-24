@@ -31,14 +31,14 @@ Then run `dev/build` (Silverstripe 5) or `sake db:build` (Silverstripe 6) with a
 | Branch | Module version | Silverstripe | Elemental | PHP |
 |--------|----------------|--------------|-----------|-----|
 | `main` | `2.x` | `^5 \|\| ^6` | `^5.4 \|\| ^6` | `^8.1` |
-| (tags only) | `1.0.x` | `^4` | `^4.5` | per Silverstripe 4 |
+| `v1` | `1.0.x` | `^4` | `^4.5` | per Silverstripe 4 |
 
-Silverstripe 4 reached end of life in April 2025 and is no longer supported or tested here. Projects
-still on it should stay on the `1.0.x` tags, which remain available.
+Silverstripe 4 is end of life and is no longer supported or tested here. Projects still on it should
+stay on the `1.0.x` tags (branch `v1`), which remain available.
 
-`main` is the only maintained line: it supports every Silverstripe version this module still targets,
-so there is no separate maintenance branch. A version branch will be created only when a change cannot
-be made compatible across the supported range.
+`main` is the only maintained line: it supports every Silverstripe version this module still targets.
+`v1` holds the Silverstripe 4 line as it was released and gets no further changes. Another version
+branch will be created only when a change cannot be made compatible across the supported range.
 
 **`composer.json` is the source of truth** for exact constraints; this table is a quick reference.
 
@@ -54,7 +54,8 @@ The module's `_config/config.yml` applies the following to every project that in
 * Every block (`BaseElement`) is inline editable, does not show its title in the template, renders in
   this module's holder template (`controller_template: BlockHolder`) and gets `ElementBlockBaseExtension`.
 * A CMS stylesheet (`client/dist/css/admin-block-tweaks.css`) is added to the admin.
-* In `dev` mode only, the route `admin/blocktypeicons` (below).
+* In `dev` mode only, the route `admin/blocktypeicons` (below). Outside dev the page answers 404 and it
+  never appears in the CMS menu.
 
 ## Functionality
 
@@ -143,7 +144,8 @@ the main tab and a "Linked to page" picker, which moves the block to another pag
 ### Block type icons preview (dev only)
 
 `admin/blocktypeicons` (CMS access required, `dev` mode only) lists every block type with its icon and
-description, to check icon crops.
+description, to check icon crops. It is not a CMS menu item, and outside dev it answers 404 on every
+route, including the `admin/admin/blocktypeicons` route the admin gives every `LeftAndMain`.
 
 #### Show block designs/thumbnails instead of icons in the admin UI
 
