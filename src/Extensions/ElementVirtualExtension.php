@@ -4,11 +4,14 @@ namespace Restruct\Silverstripe\BlockBase\Extensions;
 
 use DNADesign\Elemental\Models\BaseElement;
 use SilverStripe\Forms\DropdownField;
-use SilverStripe\ORM\DataExtension;
+// DataExtension is deprecated in Silverstripe 5.3 and removed in 6; a plain Extension carries the
+// same config statics ($db, $many_many, ...) on both majors.
+//use SilverStripe\ORM\DataExtension;
+use SilverStripe\Core\Extension;
 use SilverStripe\ORM\UnsavedRelationList;
 
 class ElementVirtualExtension
-    extends DataExtension
+    extends Extension
 {
     private static $many_many = [
         'LinkedElements' => BaseElement::class,
@@ -94,7 +97,9 @@ class ElementVirtualExtension
             $this->owner->LinkedElementID = $this->owner->LinkedElementRelation->first()->ID;
         }
 
-        parent::onBeforeWrite();
+        // Extension has no onBeforeWrite() to call (DataExtension had an empty one), so the parent
+        // call would fatal on Silverstripe 6:
+//        parent::onBeforeWrite();
     }
 }
 

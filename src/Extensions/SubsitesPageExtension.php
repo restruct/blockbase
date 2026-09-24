@@ -4,7 +4,10 @@ namespace Restruct\Silverstripe\BlockBase\Extensions;
 
 use SilverStripe\Core\Config\Config;
 use SilverStripe\Forms\FieldList;
-use SilverStripe\ORM\DataExtension;
+// DataExtension is deprecated in Silverstripe 5.3 and removed in 6; a plain Extension carries the
+// same config statics ($db, $many_many, ...) on both majors.
+//use SilverStripe\ORM\DataExtension;
+use SilverStripe\Core\Extension;
 use SilverStripe\Subsites\Model\Subsite;
 use SilverStripe\Subsites\State\SubsiteState;
 
@@ -12,7 +15,7 @@ use SilverStripe\Subsites\State\SubsiteState;
  * @package elemental
  */
 class SubsitesPageExtension
-    extends DataExtension
+    extends Extension
 {
     /**
      * @config array enable/disable block types (classes) on subsites (and remove UI if none allowed)

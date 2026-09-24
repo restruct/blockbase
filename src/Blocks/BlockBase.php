@@ -35,7 +35,10 @@ extends \DNADesign\Elemental\Models\BaseElement
      */
     public function getType()
     {
-        return $this->getDescription();
+        // getDescription() is deprecated in elemental 5 and removed in elemental 6 (BadMethodCallException);
+        // i18n_classDescription() is what it returned. Uninherited config, so fall back to the singular name.
+//        return $this->getDescription();
+        return $this->i18n_classDescription() ?: parent::getType();
     }
 
     /**

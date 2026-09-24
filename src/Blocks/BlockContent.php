@@ -23,7 +23,10 @@ class BlockContent
     // (for additional icons see https://gbaumeister.github.io/ss4-icons/)
     private static $icon = 'font-icon-block-content';
 
-    private static $description = 'Text/Content';
+    // 'description' was renamed 'class_description': elemental 5.4 reads only the new name (the old one
+    // is deprecated and ignored), elemental 6 has only the new one.
+//    private static $description = 'Text/Content';
+    private static $class_description = 'Text/Content';
 
     /**
      * @config bool enable/disable attributes on a project basis, can also be overridden in subclasses

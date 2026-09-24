@@ -13,12 +13,15 @@ use SilverStripe\Forms\ListboxField;
 use SilverStripe\Forms\MultiSelectField;
 use SilverStripe\Forms\OptionsetField;
 use SilverStripe\Forms\SelectionGroup;
-use SilverStripe\ORM\DataExtension;
+// DataExtension is deprecated in Silverstripe 5.3 and removed in 6; a plain Extension carries the
+// same config statics ($db, $many_many, ...) on both majors.
+//use SilverStripe\ORM\DataExtension;
+use SilverStripe\Core\Extension;
 use SilverStripe\ORM\FieldType\DBHTMLVarchar;
 use SilverStripe\TagField\StringTagField;
 
 class ElementBlockBaseExtension
-    extends DataExtension
+    extends Extension
 {
     //
     // DISABLE SOME BLOCKTYPES
@@ -121,7 +124,9 @@ class ElementBlockBaseExtension
 
     public function onBeforeWrite()
     {
-        parent::onBeforeWrite();
+        // Extension has no onBeforeWrite() to call (DataExtension had an empty one), so the parent
+        // call would fatal on Silverstripe 6:
+//        parent::onBeforeWrite();
 
         // Workaround VirtualElement bug https://github.com/dnadesign/silverstripe-elemental-virtual/issues/42
         if (!$this->owner->ID) {
@@ -129,7 +134,7 @@ class ElementBlockBaseExtension
         }
 
         if (!$this->owner->Title) {
-            $this->owner->Title = $this->owner->getDescription() . " Block";
+            $this->owner->Title = $this->getBlockDescription() . " Block";
         }
     }
 
@@ -140,6 +145,19 @@ class ElementBlockBaseExtension
     {
         // Summary takes content and/or fileUrl/fileTitle props, see:
         // https://github.com/silverstripe/silverstripe-elemental/blob/4/client/src/components/ElementEditor/Summary.js
-        $blockSchema['content'] = "{$this->owner->getDescription()} block – “{$this->owner->getSummary()}…”";
+        $blockSchema['content'] = "{$this->getBlockDescription()} block – “{$this->owner->getSummary()}…”";
+    }
+
+    /**
+     * The block type's description, for summaries and default titles.
+     *
+     * BaseElement::getDescription() is deprecated in elemental 5 and gone in elemental 6, so this reads
+     * i18n_classDescription() (the $class_description config, translatable) on both. That config is
+     * UNINHERITED, so a block class without its own description falls back to its type name
+     * (singular name) instead of an empty string.
+     */
+    public function getBlockDescription(): string
+    {
+        return (string) ($this->owner->i18n_classDescription() ?: $this->owner->getType());
     }
 }

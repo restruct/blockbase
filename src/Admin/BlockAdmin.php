@@ -91,9 +91,13 @@ class BlockAdmin
                             ->setForm($form)
                     );
                     if($elPage){
+                        // SiteTree::CMSEditLink() became getCMSEditLink() in Silverstripe 6 (the old name only
+                        // survives as a deprecated DataObject wrapper); Silverstripe 5 has only the old name.
+                        $editLink = $elPage->hasMethod('getCMSEditLink') ? $elPage->getCMSEditLink() : $elPage->CMSEditLink();
                         $treeDrd->setRightTitle(
                             DBHTMLVarchar::create()->setValue(
-                                sprintf("ID: %d (<a href=\"%s\" target=\"blank\">Edit in CMS</a>)", $elPage->ID, $elPage->CMSEditLink())
+//                                sprintf("ID: %d (<a href=\"%s\" target=\"blank\">Edit in CMS</a>)", $elPage->ID, $elPage->CMSEditLink())
+                                sprintf("ID: %d (<a href=\"%s\" target=\"blank\">Edit in CMS</a>)", $elPage->ID, $editLink)
                             )
                         );
                     }

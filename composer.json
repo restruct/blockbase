@@ -3,7 +3,9 @@
   "description": "Various tweaks & enhancements on top of Elemental",
   "type": "silverstripe-vendormodule",
   "keywords": [
-    "silverstripe"
+    "silverstripe",
+    "elemental",
+    "blocks"
   ],
   "license": "MIT",
   "authors": [
@@ -14,19 +16,49 @@
     }
   ],
   "require": {
-    "silverstripe/vendor-plugin": "^1.0",
-    "silverstripe/framework": "^4",
-    "dnadesign/silverstripe-elemental": "^4.5",
-    "restruct/silverstripe-admintweaks": "^2"
+    "php": "^8.1",
+    "silverstripe/vendor-plugin": "^2 || ^3",
+    "silverstripe/framework": "^5 || ^6",
+    "dnadesign/silverstripe-elemental": "^5.4 || ^6",
+    "restruct/silverstripe-admintweaks": "^3 || ^4"
+  },
+  "require-dev": {
+    "silverstripe/recipe-testing": "^3 || ^4"
+  },
+  "suggest": {
+    "dnadesign/silverstripe-elemental-virtual": "Virtual (clone) blocks; blockbase adds a block picker and inline-editing support for them",
+    "silverstripe/subsites": "Allow or disallow specific block types per subsite (subsites_allowed_elements / subsites_disallowed_elements)"
   },
   "autoload": {
     "psr-4": {
       "Restruct\\Silverstripe\\BlockBase\\": "src/"
     }
   },
+  "autoload-dev": {
+    "psr-4": {
+      "Restruct\\Silverstripe\\BlockBase\\Tests\\": "tests/"
+    }
+  },
   "extra": {
     "expose": [
       "client/dist"
-    ]
-  }
+    ],
+    "branch-alias": {
+      "dev-main": "2.x-dev"
+    }
+  },
+  "config": {
+    "allow-plugins": {
+      "composer/installers": true,
+      "silverstripe/vendor-plugin": true
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "funding": [
+    {
+      "type": "github",
+      "url": "https://github.com/sponsors/restruct"
+    }
+  ]
 }
