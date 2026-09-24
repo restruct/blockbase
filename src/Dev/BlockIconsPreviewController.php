@@ -8,6 +8,7 @@ use SilverStripe\Admin\LeftAndMain;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Control\HTTPResponse;
 use SilverStripe\Core\ClassInfo;
+use SilverStripe\Control\Director;
 use SilverStripe\Core\Config\Config;
 // ArrayList moved in Silverstripe 6 (ORM\ArrayList -> Model\List\ArrayList) with no alias left behind, so
 // the class is resolved per major in index() instead of imported:
@@ -29,6 +30,12 @@ class BlockIconsPreviewController
     private static $allowed_actions = [
         'index' => 'CMS_ACCESS_CMSMain',
     ];
+
+    # A dev helper, not a CMS section. Because it is a LeftAndMain with a url_segment, CMSMenu would
+    # otherwise list it (titled with its raw class name) and AdminRootController would route it at
+    # admin/admin/blocktypeicons in EVERY environment; only the Director rule in _config/config.yml is
+    # dev-gated. So: no menu item, and init() refuses the request outside dev.
+    private static $ignore_menuitem = true;
 
 //    private static $segment = 'BlockTypeIconsPreview';
 //    protected $title = 'Preview icons of all Block-Types';
@@ -63,6 +70,17 @@ class BlockIconsPreviewController
 //
 //        return Requirements::includeInHTML($html);
 //    }
+
+    protected function init()
+    {
+        # Checked BEFORE LeftAndMain::init(), so a live/test site answers 404 rather than a login
+        # redirect that would reveal the page exists (both routes: the dev-only Director rule, which is
+        # present whenever the config manifest was built in dev, and AdminRootController's url_segment)
+        if (!Director::isDev()) {
+            $this->httpError(404);
+        }
+        parent::init();
+    }
 
     public function index(HTTPRequest $request): HTTPResponse
     {
