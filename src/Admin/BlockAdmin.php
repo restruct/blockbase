@@ -71,7 +71,9 @@ class BlockAdmin
                 $elPage = $elArea ? $elArea->getOwnerPage() : null;
 
                 $fields->addFieldToTab('Root.Main', HeaderField::create('SettingsHeader', $baseElement->fieldLabel('Settings')));
-                $fields->addFieldsToTab('Root.Main', $fields->fieldByName('Root.Settings')->Fields());
+                // addFieldsToTab() takes an array in Silverstripe 6 (TypeError for a FieldList); an array works on 5 too
+//                $fields->addFieldsToTab('Root.Main', $fields->fieldByName('Root.Settings')->Fields());
+                $fields->addFieldsToTab('Root.Main', $fields->fieldByName('Root.Settings')->Fields()->toArray());
                 $fields->removeByName('Settings');
                 $fields->removeByName('History');
 
