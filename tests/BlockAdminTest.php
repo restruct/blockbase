@@ -52,7 +52,8 @@ class BlockAdminTest extends FunctionalTest
         $body = $edit->getBody();
         $this->assertStringContainsString('Linked to page', $body);
         $this->assertStringContainsString('ID: ' . $page->ID . ' (', $body);
-        // The page's own CMS edit link (getCMSEditLink() on 6, CMSEditLink() on 5)
+        // The page's own CMS edit link. BlockAdmin calls getCMSEditLink() on 6 and CMSEditLink() on 5, but
+        // this does not show which one ran: 6 keeps CMSEditLink() as a deprecated wrapper with the same URL
         $this->assertStringContainsString('admin/pages/edit/show/' . $page->ID, $body);
         // Settings fields moved to the main tab under a header
         $this->assertStringContainsString('SettingsHeader', $body);
