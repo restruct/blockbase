@@ -44,7 +44,9 @@ and `restruct/silverstripe-admintweaks ^3 || ^4`.
 - **Opening a block in the Content Blocks admin threw a TypeError on Silverstripe 6**:
   `addFieldsToTab()` was given a `FieldList` instead of an array.
 - `ElementVirtualExtension::LinkedElementRelation()` threw an `InvalidArgumentException` on a clone
-  without a linked block yet (it passed `NULL` to `UnsavedRelationList::add()`).
+  without a linked block yet (it passed `NULL` to `UnsavedRelationList::add()`). Only reachable through
+  a custom field that uses `LinkedElementRelation`; the module's own linked-block field writes
+  `LinkedElementID` directly.
 - `getExtraData()` passed `NULL` to `json_decode()` for a block without ExtraData (deprecated since
   PHP 8.1).
 - On Silverstripe 6: the page edit link in the block admin uses `getCMSEditLink()`, and the

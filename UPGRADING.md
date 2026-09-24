@@ -23,7 +23,9 @@
    (for example `parent::onBeforeWrite()` on `ContentBlocksToggleExtension` or `SubsitesPageExtension`),
    remove that call; `Extension` has no such method. Keep `parent::` calls to hooks the module class
    does define: `onBeforeWrite()` on `ElementBlockBaseExtension` and `ElementVirtualExtension`, and
-   `updateCMSFields()` on all four extensions.
+   `updateCMSFields()` on `ElementBlockBaseExtension`, `ElementVirtualExtension`,
+   `ContentBlocksToggleExtension` and `SubsitesPageExtension`. `ElementContentMigrationExtension`
+   defines neither hook.
 5. If you applied `ElementContentMigrationExtension` to `MigrateContentToElement`: it now actually
    excludes non-`Page` types and skips pages that already have blocks. Check that is what you want before
    running the task again.
