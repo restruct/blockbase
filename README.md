@@ -98,7 +98,8 @@ use `Blocks/BlockContent.ss`, `BlockContent_<style>.ss` and so on.
 * A new block without a title is named `"<description> Block"`; a new block is not globally available
   (a workaround for [elemental-virtual#42](https://github.com/dnadesign/silverstripe-elemental-virtual/issues/42)).
 * `getBlockDescription()`: the block's `class_description`, falling back to its type name.
-* The editor summary reads `"<description> block – “<summary>…”"`.
+* The editor summary reads `<description> block`, then a dash and the block's summary in curly quotes
+  with a trailing ellipsis (the exact characters are in `ElementBlockBaseExtension::updateBlockSchema()`).
 * Style and styling fields sit on the Main tab; the `Style` dropdown has no empty option.
 * `BlockHolderClasses()` and `getPath()` for templates and pickers.
 
