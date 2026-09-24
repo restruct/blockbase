@@ -42,6 +42,8 @@ DNADesign\Elemental\Models\BaseElement:
   displays_title_in_template: false
   # 'description' was renamed 'class_description' (read since elemental 5.4, the only key in elemental 6)
 #  description: 'Base'
+  # Displayed only where elemental ships no translation: its own lang entry
+  # DNADesign\Elemental\Models\BaseElement.CLASS_DESCRIPTION ('Base element class') takes precedence
   class_description: 'Base'
   controller_template: 'BlockHolder'
   extensions:
