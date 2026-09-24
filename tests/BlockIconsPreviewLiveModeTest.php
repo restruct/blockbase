@@ -51,8 +51,8 @@ class BlockIconsPreviewLiveModeTest extends FunctionalTest
     public function testNotInTheCmsMenu()
     {
         CMSMenu::populate_menu();
-        foreach (CMSMenu::get_menu_items() as $code => $item) {
-            $this->assertNotSame(BlockIconsPreviewController::class, $item->controller, "menu item $code");
-        }
+        # One assertion over all items, so the count does not depend on how many sections a major has
+        $controllers = array_map(fn($item) => $item->controller, CMSMenu::get_menu_items());
+        $this->assertNotContains(BlockIconsPreviewController::class, array_values($controllers));
     }
 }
