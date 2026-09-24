@@ -43,8 +43,11 @@ class BlockContent
         switch ($field) {
             case 'Heading': return $this->config()->get('has_heading');
             case 'IntroLine': return $this->config()->get('has_introline');
-            case 'Content': return $this->config()->get('has_image');
-            case 'Image': return $this->config()->get('has_content');
+            // These two were crossed (Content answered has_image, Image answered has_content):
+//            case 'Content': return $this->config()->get('has_image');
+//            case 'Image': return $this->config()->get('has_content');
+            case 'Content': return $this->config()->get('has_content');
+            case 'Image': return $this->config()->get('has_image');
             case 'BackgroundImage': return $this->config()->get('has_bg_image');
         }
 
@@ -166,7 +169,10 @@ class BlockContent
     }
     public function getExtraData()
     {
-        return json_decode($this->ExtraDataJSON, JSON_OBJECT_AS_ARRAY);
+        // Cast: a block that never stored ExtraData has NULL here, and json_decode(null) is deprecated
+        // since PHP 8.1. An empty string decodes to null, as before.
+//        return json_decode($this->ExtraDataJSON, JSON_OBJECT_AS_ARRAY);
+        return json_decode((string) $this->ExtraDataJSON, true);
     }
 
     // Write any ExtraData_* fields into ExtraDataJSON

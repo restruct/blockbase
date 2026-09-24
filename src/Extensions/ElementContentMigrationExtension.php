@@ -11,11 +11,14 @@ use SilverStripe\Core\Extension;
 class ElementContentMigrationExtension
 extends Extension
 {
+    // By reference: MigrateContentToElement passes its variables through extend() by reference, and a
+    // by-value parameter here made the assignment below a no-op (every page type stayed migratable)
+//    public function updateIsMigratable ($migratable, $pageType)
     /**
      * @param bool $migratable
      * @param string|SiteTree $pageType
      */
-    public function updateIsMigratable ($migratable, $pageType)
+    public function updateIsMigratable (&$migratable, $pageType)
     {
         if($pageType !== Page::class){
             $migratable = false;
@@ -27,7 +30,9 @@ extends Extension
 //
 //    }
 
-    public function updatePageShouldSkip ($skip, $page)
+    // By reference, as above: by value, pages that already had blocks were never skipped
+//    public function updatePageShouldSkip ($skip, $page)
+    public function updatePageShouldSkip (&$skip, $page)
     {
 //        // Delete previously migrated block (if any)
 //        $pageBlocks = $page->ElementalArea->Elements();
