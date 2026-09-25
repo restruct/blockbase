@@ -71,7 +71,9 @@ class BlockAdmin
                 $elPage = $elArea ? $elArea->getOwnerPage() : null;
 
                 $fields->addFieldToTab('Root.Main', HeaderField::create('SettingsHeader', $baseElement->fieldLabel('Settings')));
-                $fields->addFieldsToTab('Root.Main', $fields->fieldByName('Root.Settings')->Fields());
+                // addFieldsToTab() takes an array in Silverstripe 6 (TypeError for a FieldList); an array works on 5 too
+//                $fields->addFieldsToTab('Root.Main', $fields->fieldByName('Root.Settings')->Fields());
+                $fields->addFieldsToTab('Root.Main', $fields->fieldByName('Root.Settings')->Fields()->toArray());
                 $fields->removeByName('Settings');
                 $fields->removeByName('History');
 
@@ -91,9 +93,13 @@ class BlockAdmin
                             ->setForm($form)
                     );
                     if($elPage){
+                        // SiteTree::CMSEditLink() became getCMSEditLink() in Silverstripe 6 (the old name only
+                        // survives as a deprecated DataObject wrapper); Silverstripe 5 has only the old name.
+                        $editLink = $elPage->hasMethod('getCMSEditLink') ? $elPage->getCMSEditLink() : $elPage->CMSEditLink();
                         $treeDrd->setRightTitle(
                             DBHTMLVarchar::create()->setValue(
-                                sprintf("ID: %d (<a href=\"%s\" target=\"blank\">Edit in CMS</a>)", $elPage->ID, $elPage->CMSEditLink())
+//                                sprintf("ID: %d (<a href=\"%s\" target=\"blank\">Edit in CMS</a>)", $elPage->ID, $elPage->CMSEditLink())
+                                sprintf("ID: %d (<a href=\"%s\" target=\"blank\">Edit in CMS</a>)", $elPage->ID, $editLink)
                             )
                         );
                     }

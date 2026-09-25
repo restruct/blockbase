@@ -23,7 +23,10 @@ class BlockContent
     // (for additional icons see https://gbaumeister.github.io/ss4-icons/)
     private static $icon = 'font-icon-block-content';
 
-    private static $description = 'Text/Content';
+    // 'description' was renamed 'class_description': elemental 5.4 reads only the new name (the old one
+    // is deprecated and ignored), elemental 6 has only the new one.
+//    private static $description = 'Text/Content';
+    private static $class_description = 'Text/Content';
 
     /**
      * @config bool enable/disable attributes on a project basis, can also be overridden in subclasses
@@ -40,8 +43,11 @@ class BlockContent
         switch ($field) {
             case 'Heading': return $this->config()->get('has_heading');
             case 'IntroLine': return $this->config()->get('has_introline');
-            case 'Content': return $this->config()->get('has_image');
-            case 'Image': return $this->config()->get('has_content');
+            // These two were crossed (Content answered has_image, Image answered has_content):
+//            case 'Content': return $this->config()->get('has_image');
+//            case 'Image': return $this->config()->get('has_content');
+            case 'Content': return $this->config()->get('has_content');
+            case 'Image': return $this->config()->get('has_image');
             case 'BackgroundImage': return $this->config()->get('has_bg_image');
         }
 
@@ -163,7 +169,10 @@ class BlockContent
     }
     public function getExtraData()
     {
-        return json_decode($this->ExtraDataJSON, JSON_OBJECT_AS_ARRAY);
+        // Cast: a block that never stored ExtraData has NULL here, and json_decode(null) is deprecated
+        // since PHP 8.1. An empty string decodes to null, as before.
+//        return json_decode($this->ExtraDataJSON, JSON_OBJECT_AS_ARRAY);
+        return json_decode((string) $this->ExtraDataJSON, true);
     }
 
     // Write any ExtraData_* fields into ExtraDataJSON

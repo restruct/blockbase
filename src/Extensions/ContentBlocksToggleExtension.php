@@ -5,10 +5,13 @@ namespace Restruct\Silverstripe\BlockBase\Extensions;
 use Restruct\Silverstripe\AdminTweaks\Helpers\GeneralHelpers;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\FieldList;
-use SilverStripe\ORM\DataExtension;
+// DataExtension is deprecated in Silverstripe 5.3 and removed in 6; a plain Extension carries the
+// same config statics ($db, $many_many, ...) on both majors.
+//use SilverStripe\ORM\DataExtension;
+use SilverStripe\Core\Extension;
 
 class ContentBlocksToggleExtension
-    extends DataExtension
+    extends Extension
 {
     private static $db = [
         "ContentBlocksToggle" => "Enum('content_blocks,content,blocks','content_blocks')",

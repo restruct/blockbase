@@ -40,7 +40,11 @@ DNADesign\Elemental\Controllers\ElementController:
 DNADesign\Elemental\Models\BaseElement:
   inline_editable: true
   displays_title_in_template: false
-  description: 'Base'
+  # 'description' was renamed 'class_description' (read since elemental 5.4, the only key in elemental 6)
+#  description: 'Base'
+  # Displayed only where elemental ships no translation: its own lang entry
+  # DNADesign\Elemental\Models\BaseElement.CLASS_DESCRIPTION ('Base element class') takes precedence
+  class_description: 'Base'
   controller_template: 'BlockHolder'
   extensions:
     - Restruct\Silverstripe\BlockBase\Extensions\ElementBlockBaseExtension
@@ -80,7 +84,9 @@ DNADesign\ElementalVirtual\Model\ElementVirtual:
 #  table_name: 'BlockClone'
   singular_name: 'clone block'
   plural_name: 'clone blocks'
-  description: 'Duplicaat (clone)'
+  # 'description' was renamed 'class_description' (read since elemental 5.4, the only key in elemental 6)
+#  description: 'Duplicaat (clone)'
+  class_description: 'Duplicaat (clone)'
   controller_template: 'BlockHolder'
   # Make virtual (clone) elements work with inline editing
   inline_editable: true
