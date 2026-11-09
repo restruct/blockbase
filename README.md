@@ -1,7 +1,9 @@
 # Restruct Silverstripe Block Base module
 
-*Maintained by [Restruct](https://github.com/restruct). If this module saves you time, you can
-[support ongoing maintenance](https://github.com/sponsors/restruct).*
+> **No longer maintained (November 2026).** This module is retired and the repository is archived.
+> The last release, 2.0.0, keeps working where it is installed, but it will not get fixes or
+> Silverstripe updates. For new projects, use [Elemental](https://github.com/silverstripe/silverstripe-elemental)
+> directly.
 
 This module serves as a base on top of [Elemental](https://github.com/silverstripe/silverstripe-elemental),
 for blocks based projects by Restruct: a content block with configurable fields, editor tweaks for every
